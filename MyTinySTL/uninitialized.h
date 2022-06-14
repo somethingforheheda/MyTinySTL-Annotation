@@ -165,6 +165,10 @@ unchecked_uninit_fill_n(ForwardIter first, Size n, const T& value, std::false_ty
 template <class ForwardIter, class Size, class T>
 ForwardIter uninitialized_fill_n(ForwardIter first, Size n, const T& value)
 {
+    /*
+     * std::is_trivially_copy_assignable 检查T是否时普通复制可分配类型 如果T为可分配类型则返回true否则false
+     * 此处的T为typename iterator_traits<ForwardIter>::value_type
+     * */
   return mystl::unchecked_uninit_fill_n(first, n, value, 
                                         std::is_trivially_copy_assignable<
                                         typename iterator_traits<ForwardIter>::

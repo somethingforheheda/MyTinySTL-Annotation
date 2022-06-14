@@ -42,22 +42,23 @@ namespace mystl
 template <class T>
 class vector
 {
+    //如果第一个参数为真 则编译就不会通过 并展示第二个参数的信息 在代码检查时就会有红色波浪线
   static_assert(!std::is_same<bool, T>::value, "vector<bool> is abandoned in mystl");
 public:
   // vector 的嵌套型别定义
   typedef mystl::allocator<T>                      allocator_type;
   typedef mystl::allocator<T>                      data_allocator;
 
-  typedef typename allocator_type::value_type      value_type;
-  typedef typename allocator_type::pointer         pointer;
-  typedef typename allocator_type::const_pointer   const_pointer;
-  typedef typename allocator_type::reference       reference;
-  typedef typename allocator_type::const_reference const_reference;
-  typedef typename allocator_type::size_type       size_type;
-  typedef typename allocator_type::difference_type difference_type;
+  typedef typename allocator_type::value_type      value_type;//表示T类型
+  typedef typename allocator_type::pointer         pointer;//表示T*
+  typedef typename allocator_type::const_pointer   const_pointer;//const T*
+  typedef typename allocator_type::reference       reference;//T&
+  typedef typename allocator_type::const_reference const_reference;//const T&
+  typedef typename allocator_type::size_type       size_type;//size_t 无符号整型
+  typedef typename allocator_type::difference_type difference_type;//长整型long long
 
-  typedef value_type*                              iterator;
-  typedef const value_type*                        const_iterator;
+  typedef value_type*                              iterator;//T* 指针迭代器
+  typedef const value_type*                        const_iterator;//常量指针 这个指针可以指向其他的T变量 但是通过指针的解引用无法修改指针所指向的变量的值
   typedef mystl::reverse_iterator<iterator>        reverse_iterator;
   typedef mystl::reverse_iterator<const_iterator>  const_reverse_iterator;
 
@@ -71,7 +72,7 @@ private:
 public:
   // 构造、复制、移动、析构函数
   vector() noexcept
-  { try_init(); }
+  { try_init(); }//构造时 默认创建16个单位的数据
 
   explicit vector(size_type n)
   { fill_init(n, value_type()); }
@@ -549,17 +550,17 @@ void vector<T>::swap(vector<T>& rhs) noexcept
 /*****************************************************************************************/
 // helper function
 
-// try_init 函数，若分配失败则忽略，不抛出异常
+// try_init 函数，若分配失败则忽略，不抛出异常 vector构造函数中调用此方法
 template <class T>
 void vector<T>::try_init() noexcept
 {
   try
   {
-    begin_ = data_allocator::allocate(16);
+    begin_ = data_allocator::allocate(16);//allocate返回T类指针
     end_ = begin_;
     cap_ = begin_ + 16;
   }
-  catch (...)
+  catch (...)//捕获所有异常
   {
     begin_ = nullptr;
     end_ = nullptr;
@@ -569,7 +570,7 @@ void vector<T>::try_init() noexcept
 
 // init_space 函数
 template <class T>
-void vector<T>::init_space(size_type size, size_type cap)
+void vector<T>::init_space(size_type size, size_type cap)//初始化cap大小的空间 将begin_ end_ cap_三个迭代器的位置设置好
 {
   try
   {
@@ -591,7 +592,7 @@ template <class T>
 void vector<T>::
 fill_init(size_type n, const value_type& value)
 {
-  const size_type init_size = mystl::max(static_cast<size_type>(16), n);
+  const size_type init_size = mystl::max(static_cast<size_type>(16), n);//最小从16开始
   init_space(n, init_size);
   mystl::uninitialized_fill_n(begin_, n, value);
 }

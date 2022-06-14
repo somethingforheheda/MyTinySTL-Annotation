@@ -39,7 +39,7 @@ public:
     {
         this->m_a=m_a;
         this->m_b=m_b;
-        this->m_str=m_str;
+        this->m_str=std::move(m_str);
     }
 };
 
@@ -52,6 +52,8 @@ ostream & operator<<(ostream &out, const Test &c)
 int main()
 {
     using namespace mystl::test;
+
+
     Test *c=new Test(2,2.1,"str");
     Test t1(3,3.1,"str111");
 
@@ -60,6 +62,9 @@ int main()
     mystl::vector<Test*> mm;
     mm.push_back(c);
 
+    mystl::vector<int> int_vec;
+    int_vec.push_back(1);
+    cout << int_vec.at(0) <<endl;
     mm.at(0)->show();
     //cout << mm.at(0) <<endl;
 
