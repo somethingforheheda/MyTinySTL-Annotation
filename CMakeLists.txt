@@ -10,7 +10,7 @@ set(MyTinySTL_VERSION "${MyTinySTL_VERSION_MAJOR}.${MyTinySTL_VERSION_MINOR}.${M
 message(STATUS "The version of this project is: ${MyTinySTL_VERSION}")
 
 # build type
-set(CMAKE_BUILD_TYPE release)
+set(CMAKE_BUILD_TYPE debug)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wextra -Wno-sign-compare -Wno-unused-but-set-variable -Wno-array-bounds")
