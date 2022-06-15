@@ -51,7 +51,7 @@ ostream & operator<<(ostream &out, const Test &c)
 
 int main()
 {
-    using namespace mystl::test;//测试1
+    using namespace mystl::test;//测试222
 
 
     Test *c=new Test(2,2.1,"str");
