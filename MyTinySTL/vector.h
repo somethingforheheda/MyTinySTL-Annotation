@@ -42,7 +42,7 @@ namespace mystl
 template <class T>
 class vector
 {
-    //如果第一个参数为真 则编译就不会通过 并展示第二个参数的信息 在代码检查时就会有红色波浪线
+    //如果第一个参数为真 则编译就不会通过 并展示第二个参数的信息 在编译时就会有红色波浪线
   static_assert(!std::is_same<bool, T>::value, "vector<bool> is abandoned in mystl");
 public:
   // vector 的嵌套型别定义
@@ -80,6 +80,10 @@ public:
   vector(size_type n, const value_type& value)
   { fill_init(n, value); }
 
+  /*
+   * std::enable_if 只有当第一个模板参数为 true 时，type 才有定义，
+   * 否则使用 type 会产生编译错误，并且默认模板参数可以让你不必指定类型
+   * */
   template <class Iter, typename std::enable_if<
     mystl::is_input_iterator<Iter>::value, int>::type = 0>
   vector(Iter first, Iter last)

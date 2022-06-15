@@ -151,6 +151,7 @@ unchecked_uninit_fill_n(ForwardIter first, Size n, const T& value, std::false_ty
   {
     for (; n > 0; --n, ++cur)
     {
+      //cur迭代器的解引用被重载 此时解引用相当于获取源对象 再加上& 相当于获取源对象的地址
       mystl::construct(&*cur, value);
     }
   }
